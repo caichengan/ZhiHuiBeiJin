@@ -65,4 +65,12 @@ public abstract class TabBasePager implements OnClickListener
 		menu.toggle();
 		
 	}
+	/**
+	 * 菜单切换的方法，子类要实现菜单切换，就要复写这个方法
+	 * @param position
+	 */
+	public void switchMenuPager(int position)
+	{
+		
+	}
 }

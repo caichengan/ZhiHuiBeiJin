@@ -29,7 +29,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
  *@类名:ContentFragment
  *@时间:下午5:27:40
  * @author Administrator
- *@描述:这是加载页面内容的容器
+ *@描述:这是加载页面内容的容器，用来管理tab的切换内容
  */
 public class ContentFragment extends BaseFragment implements OnCheckedChangeListener {
 	public static final String	tag	= "ContentFragment";
@@ -39,7 +39,9 @@ public class ContentFragment extends BaseFragment implements OnCheckedChangeList
 	@ViewInject(R.id.content_tab_rad)     //底部容器
 	
 	private RadioGroup mRadioGroup;    
-	private List<TabBasePager> mList;
+	private List<TabBasePager> mList;  //显示内容 显示页面
+
+	private int	checkCurrentId;
 	@Override
 	protected View initView() {
 	View view1=	View.inflate(mActivity, R.layout.content, null);
@@ -65,6 +67,8 @@ public class ContentFragment extends BaseFragment implements OnCheckedChangeList
 		
 		//给RadioGroup设置默认值
 		mRadioGroup.check(R.id.tab_home);
+		
+		checkCurrentId = 0;
 	}
 	//viewpager的的适配器
 	 class ViewPagerAdapter extends PagerAdapter{
@@ -109,7 +113,7 @@ public class ContentFragment extends BaseFragment implements OnCheckedChangeList
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId)
 	{
-		int checkCurrentId=-1;
+		
 		switch(checkedId){
 			case R.id.tab_home:
 				checkCurrentId=0;
@@ -144,6 +148,18 @@ public class ContentFragment extends BaseFragment implements OnCheckedChangeList
 		MainUIActivity mainui=(MainUIActivity) mActivity;
 		SlidingMenu menu=mainui.getSlidingMenu();
 		menu.setTouchModeAbove(enable?SlidingMenu.TOUCHMODE_FULLSCREEN:SlidingMenu.TOUCHMODE_NONE);
+		
+	}
+	/**
+	 * 改变菜单对应的显示页面
+	 * @param mCurrent
+	 */
+	public void switchMenuPager(int position)
+	{
+		//获得显示切换的实例
+		  TabBasePager tabPager=mList.get(checkCurrentId);
+		  //调用切换菜单
+		  tabPager.switchMenuPager(position);
 		
 	}
 }

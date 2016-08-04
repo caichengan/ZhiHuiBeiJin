@@ -1,21 +1,22 @@
 package com.cca.zhihui;
 
-import com.cca.zhihui.fragment.ContentFragment;
-
-import com.cca.zhihui.fragment.LeftFragment;
-import com.cca.zhuihui.R;
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
-
-
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Window;
+
+import com.cca.zhihui.fragment.ContentFragment;
+import com.cca.zhihui.fragment.LeftFragment;
+import com.cca.zhuihui.R;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 /**
  * 
+ *@包名:com.cca.zhihui
+ *@类名:MainUIActivity
+ *@时间:下午1:38:55
  * @author Administrator
- *主界面
+ *@描述:主界面添加主页和左侧菜单
  */
 public class MainUIActivity extends SlidingFragmentActivity {
 
@@ -61,5 +62,27 @@ public class MainUIActivity extends SlidingFragmentActivity {
 		
 		transaction.commit();
 		
+	}
+
+	/**
+	 * 获取左侧菜单
+	 */
+	public LeftFragment getLeftFragment()
+	{
+		FragmentManager fm=getSupportFragmentManager();
+		return (LeftFragment) fm.findFragmentByTag(TAG_LEFT_MENU);
+		
+	}
+
+	/**
+	 * 获得当前的实例
+	 * @return
+	 */
+	public ContentFragment getContentFragment()
+
+	{
+		FragmentManager fm=getSupportFragmentManager();
+		return (ContentFragment) fm.findFragmentByTag(TAG_CONTENT);
+
 	}
 }
