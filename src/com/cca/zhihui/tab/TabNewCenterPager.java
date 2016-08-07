@@ -1,18 +1,17 @@
-package com.cca.zhihui.baseactivity;
+package com.cca.zhihui.tab;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.content.SharedPreferences.Editor;
+import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.widget.LinearLayout.LayoutParams;
-import android.widget.TextView;
 
 import com.cca.zhihui.MainUIActivity;
 import com.cca.zhihui.base.NewsCenterBaseMenu;
+import com.cca.zhihui.base.TabBasePager;
 import com.cca.zhihui.base.newscontentmenu.NewsCenterInteractMenu;
 import com.cca.zhihui.base.newscontentmenu.NewsCenterNewsMenu;
 import com.cca.zhihui.base.newscontentmenu.NewsCenterPicMenu;
@@ -21,6 +20,7 @@ import com.cca.zhihui.bean.NewsCenterMenuBean;
 import com.cca.zhihui.bean.NewsCenterMenuBean.NewCenterMenuListBean;
 import com.cca.zhihui.fragment.LeftFragment;
 import com.cca.zhihui.utils.Constans;
+import com.cca.zhihui.utils.GetDataShared;
 import com.google.gson.Gson;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -56,6 +56,9 @@ public class TabNewCenterPager extends TabBasePager
 		//1、设置标题内容
 		mTextView.setText("新闻中心");
 		mIvMenu.setVisibility(View.VISIBLE);
+		mList=new ArrayList<NewsCenterBaseMenu>();
+		
+		
 		
 	/*	//2、设置内容区域数据
 		TextView tv=new TextView(mContext);
@@ -65,11 +68,11 @@ public class TabNewCenterPager extends TabBasePager
 		
 		LayoutParams params=new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
 		mContentContainer.addView(tv,params);*/
-		
+		/*
 		//通过网络获取数据，加载进来
 		//HttpUtils utils=new HttpUtils();
 		
-		/*
+		
 		RequestParams params=new RequestParams();
 		//消息头
 		params.addHeader("", "");
@@ -85,7 +88,16 @@ public class TabNewCenterPager extends TabBasePager
 		
 		utils.send(HttpMethod.GET, Constans.NEWS_CENTER_URL, params, callBack);
 		*/
+		/**
+		 * 缓存处理，进入网络访问之前先进行读取缓存数据
+		 */
 		
+		String json=GetDataShared.getString(mContext, Constans.NEWS_CENTER_URL);
+		if(!TextUtils.isEmpty(json)){
+			Log.i(TAG, "访问本地数据"+json);
+			processJson(json);
+		
+		}
 		//通过网络获取数据，加载进来
 		HttpUtils utils=new HttpUtils();
 		utils.send(HttpMethod.GET, Constans.NEWS_CENTER_URL, new RequestCallBack<String>(){
@@ -96,8 +108,14 @@ public class TabNewCenterPager extends TabBasePager
 			{
 				//取出结果值
 				String result=responseInfo.result;
+				//
+				GetDataShared.setString(mContext, Constans.NEWS_CENTER_URL, result);
+				
+				Log.i(TAG, "访问网络数据");
 				Log.i(TAG, "访问成功"+result);
 				processJson( result);
+			
+				
 			}
 			//访问网络失败
 			@Override
@@ -108,15 +126,8 @@ public class TabNewCenterPager extends TabBasePager
 				Log.i(TAG, "访问失败"+msg);
 			}});
 		
-	mList=new ArrayList<NewsCenterBaseMenu>();
-	/*		for(int i=0;i<4;i++){
-			TextView tv1=new TextView(mContext);
-			tv1.setText("第"+(i+1)+"个页面");
-			mList.add(tv1);
-		}*/
-		//设置内容区域视图的展示的默认值
-		//switchPager(0);
-		
+	
+	
 		
 	}
 
@@ -140,7 +151,7 @@ public class TabNewCenterPager extends TabBasePager
 			NewsCenterBaseMenu menuPager=null;
 			switch(bean.type){
 				case  1://新闻
-					menuPager=new NewsCenterNewsMenu(mContext);
+					menuPager=new NewsCenterNewsMenu(mContext,bean);
 					break;
 				case  10://专题
 					menuPager=new NewsCenterTopicMenu(mContext);
@@ -164,6 +175,10 @@ public class TabNewCenterPager extends TabBasePager
 	public void switchMenuPager(int position)
 	{
 		mContentContainer.removeAllViews();
+		
+		//标题的切换
+		String title=mMenuData.get(position).title;
+		mTextView.setText(title);
 
 		//页面切换
 		NewsCenterBaseMenu menuPager=mList.get(position);

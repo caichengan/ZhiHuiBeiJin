@@ -75,7 +75,7 @@ public class MainUIActivity extends SlidingFragmentActivity {
 	}
 
 	/**
-	 * 获得当前的实例
+	 * 获得当前的实例Fragment
 	 * @return
 	 */
 	public ContentFragment getContentFragment()

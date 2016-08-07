@@ -11,7 +11,7 @@ public interface Constans
 {
 	//服务器地址
 	//服务器地址，本机ip、虚拟ip
-	String SERVICE_URL="http://10.207.116.24:8888/zhbj";
+	String SERVICE_URL="http://192.168.43.194:8888/zhbj";//TODO 填写网络地址
 	String NEWS_CENTER_URL=SERVICE_URL+"/categories.json";
 
 }

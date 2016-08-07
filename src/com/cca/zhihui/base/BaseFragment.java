@@ -1,4 +1,4 @@
-package com.cca.zhihui.baseactivity;
+package com.cca.zhihui.base;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import android.view.ViewGroup;
  *@类名:BaseFragment
  *@时间:下午1:40:21
  * @author Administrator
- *@描述:TODO
+ *@描述:父类容器BaseFragment，集成了相似的内容
  */
 public abstract class BaseFragment extends Fragment {
 	

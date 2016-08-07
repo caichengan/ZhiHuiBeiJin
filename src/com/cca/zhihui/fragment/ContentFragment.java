@@ -11,14 +11,14 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.cca.zhihui.MainUIActivity;
-import com.cca.zhihui.baseactivity.BaseFragment;
-import com.cca.zhihui.baseactivity.TabBasePager;
-import com.cca.zhihui.baseactivity.TabGovPager;
-import com.cca.zhihui.baseactivity.TabHomePager;
-import com.cca.zhihui.baseactivity.TabNewCenterPager;
-import com.cca.zhihui.baseactivity.TabSettingPager;
-import com.cca.zhihui.baseactivity.TabSmasterservicePager;
-import com.cca.zhihui.view.NoTouchViewPager;
+import com.cca.zhihui.base.BaseFragment;
+import com.cca.zhihui.base.TabBasePager;
+import com.cca.zhihui.tab.TabGovPager;
+import com.cca.zhihui.tab.TabHomePager;
+import com.cca.zhihui.tab.TabNewCenterPager;
+import com.cca.zhihui.tab.TabSettingPager;
+import com.cca.zhihui.tab.TabSmasterservicePager;
+import com.cca.zhihui.widget.NoTouchViewPager;
 import com.cca.zhuihui.R;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.lidroid.xutils.ViewUtils;
@@ -147,7 +147,7 @@ public class ContentFragment extends BaseFragment implements OnCheckedChangeList
 	public void setSlindingMenu(boolean enable){
 		MainUIActivity mainui=(MainUIActivity) mActivity;
 		SlidingMenu menu=mainui.getSlidingMenu();
-		menu.setTouchModeAbove(enable?SlidingMenu.TOUCHMODE_FULLSCREEN:SlidingMenu.TOUCHMODE_NONE);
+		menu.setTouchModeAbove(enable ? SlidingMenu.TOUCHMODE_FULLSCREEN:SlidingMenu.TOUCHMODE_NONE);
 		
 	}
 	/**

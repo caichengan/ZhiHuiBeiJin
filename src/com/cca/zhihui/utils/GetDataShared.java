@@ -64,4 +64,42 @@ public class GetDataShared {
 	 return sp.getBoolean(key, deFault);
 		
 	}
+	
+	/**
+	 * 设置deFault为false就不是第一次登陆
+	 * @param context
+	 * @param key
+	 * @param deFault
+	 * @return
+	 */
+	public static void setString(Context context,String key,String  deFault){
+		SharedPreferences sp=GetDataShared.getSharedPreference(context);
+		Editor edit=sp.edit();
+		edit.putString(key, deFault);
+		edit.commit();
+	}
+	/**
+	 * 根据关键字key获取存储的数据values
+	 * @param context
+	 * @param name
+	 * @return
+	 */
+		public static String getString(Context context,String key){
+			SharedPreferences sp= getSharedPreference(context);
+			return sp.getString(key, "");
+		
+		}
+		/**
+		 * 获取缓存数据
+		 * @param context
+		 * @param key
+		 * @param deFault
+		 * @return
+		 */
+		public static String getString(Context context,String key,String deFault){
+			SharedPreferences sp= getSharedPreference(context);
+			
+		 return sp.getString(key, deFault);
+			
+		}
 }

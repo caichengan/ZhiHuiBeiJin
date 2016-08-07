@@ -1,4 +1,6 @@
-package com.cca.zhihui.baseactivity;
+package com.cca.zhihui.tab;
+
+import com.cca.zhihui.base.TabBasePager;
 
 import android.content.Context;
 import android.graphics.Color;

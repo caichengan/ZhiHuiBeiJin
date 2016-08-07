@@ -1,4 +1,4 @@
-package com.cca.zhihui.baseactivity;
+package com.cca.zhihui.base;
 
 import android.content.Context;
 import android.view.View;
@@ -57,6 +57,9 @@ public abstract class TabBasePager implements OnClickListener
 			toggleSetMenu();
 		}
 	}
+	/**
+	 * 点击菜单栏图标关闭菜单，若关闭着点击就打开
+	 */
 	private void toggleSetMenu()
 	{
 		//获取上下文取得菜单实例：点击菜单，若菜单打开就关闭，关闭就打开

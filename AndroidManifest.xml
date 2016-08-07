@@ -24,7 +24,8 @@
             </intent-filter>
         </activity>
         <activity android:name="com.cca.zhihui.GuirdActivity"></activity>
-        <activity android:name="com.cca.zhihui.MainUIActivity"></activity>
+        <activity android:name="com.cca.zhihui.MainUIActivity"
+            android:theme="@style/StyledIndicators"></activity>
     </application>
 
 </manifest>

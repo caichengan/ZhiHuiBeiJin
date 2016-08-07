@@ -13,7 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cca.zhihui.MainUIActivity;
-import com.cca.zhihui.baseactivity.BaseFragment;
+import com.cca.zhihui.base.BaseFragment;
 import com.cca.zhihui.bean.NewsCenterMenuBean.NewCenterMenuListBean;
 import com.cca.zhuihui.R;
 /**
@@ -37,6 +37,9 @@ public class LeftFragment extends BaseFragment implements OnItemClickListener {
 		tv.setText("菜单内容");
 		return tv;*/
 		
+		/**
+		 * 设置侧滑菜单的样式
+		 */
 		listview = new ListView(mActivity);
 		listview.setBackgroundColor(Color.BLACK);//设置背景色为黑色
 		listview.setDividerHeight(0); //去掉分割线

@@ -26,6 +26,33 @@
         <item name="android:gravity">center</item>
         <item name="android:button">@null</item>
         
-    </style>
+    </style><style name="StyledIndicators" parent="@android:style/Theme.Light">
 
+        <!-- <item name="vpiCirclePageIndicatorStyle">@style/CustomCirclePageIndicator</item> -->
+        <!-- 设置左右页面分割线 -->
+        <!-- <item name="vpiLinePageIndicatorStyle">@style/CustomLinePageIndicator</item> -->
+        <!-- 设置标题样式 -->
+        <!-- <item name="vpiTitlePageIndicatorStyle">@style/CustomTitlePageIndicator</item> -->
+        <!-- //设置tab样式 -->
+        <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
+        <!-- 设置下面横线样式 -->
+        <!-- <item name="vpiUnderlinePageIndicatorStyle">@style/CustomUnderlinePageIndicator</item> -->
+    </style>
+    
+    <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
+        <item name="android:background">@drawable/news_tab_indicator</item>
+        <item name="android:textAppearance">@style/CustomTabPageIndicator.Text</item>
+        <item name="android:textColor">@color/news_textcolor_indicator</item>
+        <item name="android:textSize">20sp</item>
+      <!--   <item name="android:divider">@drawable/custom_tab_indicator_divider</item>
+        <item name="android:dividerPadding">10dp</item>
+        <item name="android:showDividers">middle</item> -->
+        <item name="android:paddingLeft">18dp</item>
+        <item name="android:paddingRight">18dp</item>
+        <item name="android:fadingEdge">horizontal</item>
+        <item name="android:fadingEdgeLength">8dp</item>
+    </style>
+  <style name="CustomTabPageIndicator.Text" parent="android:TextAppearance.Medium">
+        <item name="android:typeface">monospace</item>
+    </style>
 </resources>
