@@ -18,6 +18,7 @@ import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cca.zhihui.bean.NewsCenterMenuBean.NewsCenterNewsItemBean;
 import com.cca.zhihui.bean.NewsListBean;
@@ -78,6 +79,10 @@ public class NewsCenerListPager extends NewsCenterBaseMenu implements OnPageChan
 
 
 	private List<NewsListPagerNewsBean>	mListData;  //list的數據集合
+
+	private String	moreUrl;
+
+	private NewsListDatas	listviewAdapter;
 	public NewsCenerListPager(Context context, NewsCenterNewsItemBean data) {
 		super(context);
 		this.newData = data;
@@ -131,7 +136,7 @@ public class NewsCenerListPager extends NewsCenterBaseMenu implements OnPageChan
 			{
 				// 返回成功，获得数据串
 				String result = responseInfo.result;
-				Log.i(TAG, "---------网络数据加载成功------" + result);
+				//Log.i(TAG, "---------网络数据加载成功------" + result);
 				//存储数据
 				GetDataShared.setString(mContext, url, result);
 				// 解析数据
@@ -143,7 +148,7 @@ public class NewsCenerListPager extends NewsCenterBaseMenu implements OnPageChan
 			public void onFailure(HttpException error, String msg)
 			{
 
-				Log.i(TAG, "-------网络数据加载失败-------");
+				//Log.i(TAG, "-------网络数据加载失败-------");
 			}
 		});
 	}
@@ -155,6 +160,7 @@ public class NewsCenerListPager extends NewsCenterBaseMenu implements OnPageChan
 		NewsListBean bean = gson.fromJson(json, NewsListBean.class);
 		mPicData = bean.data.topnews;
 		mListData = bean.data.news;
+		moreUrl = bean.data.more;
 		adapter = new NewsListPagerAdapter();
 		mPager.setAdapter(adapter);
 		
@@ -208,8 +214,8 @@ public class NewsCenerListPager extends NewsCenterBaseMenu implements OnPageChan
 			}
 		});
 		
-		//6、给list加载数据
-		mListView.setAdapter(new NewsListDatas());
+		listviewAdapter = new NewsListDatas();
+		mListView.setAdapter(listviewAdapter);
 		
 	}
 	//给listview设置适配器
@@ -241,7 +247,7 @@ public class NewsCenerListPager extends NewsCenterBaseMenu implements OnPageChan
 		{
 			
 			ViewHolder holder=null;
-			if(convertView==null){
+			if(convertView==null){ //复用历史缓存对象
 				holder=new ViewHolder();
 				convertView=View.inflate(mContext, R.layout.news_item_list_data, null);
 				holder.imglist=(ImageView) convertView.findViewById(R.id.img_list_data);
@@ -385,7 +391,7 @@ public class NewsCenerListPager extends NewsCenterBaseMenu implements OnPageChan
 			{
 				// 返回成功，获得数据串
 				String result = responseInfo.result;
-				Log.i(TAG, "---------网络数据加载成功------" + result);
+				//Log.i(TAG, "---------网络数据加载成功------" + result);
 				//存储数据
 				GetDataShared.setString(mContext, url, result);
 				// 解析数据
@@ -400,11 +406,66 @@ public class NewsCenerListPager extends NewsCenterBaseMenu implements OnPageChan
 			public void onFailure(HttpException error, String msg)
 			{
 
-				Log.i(TAG, "-------网络数据加载失败-------");
+				//Log.i(TAG, "-------网络数据加载失败-------");
 				//刷新完成，告示listView去收起刷新
 				mListView.refreshFinish();
 			}
 		});
+	}
+	@Override
+	public void loadingMore()
+	{
+		//去网络加载数据
+		 String mMoreurl = Constans.SERVICE_URL + moreUrl;
+		Toast.makeText(mContext, mMoreurl+"加载更多数据！", 1).show();
+		
+		if(TextUtils.isEmpty(moreUrl)){
+			//没有数据，告知listview加载完成
+			mListView.refreshFinish();
+			Toast.makeText(mContext, "没有更多数据！", 0).show();
+			return;
+		}
+		HttpUtils utils = new HttpUtils();
+		utils.send(HttpMethod.GET, mMoreurl, new RequestCallBack<String>() {
+
+			@Override
+			public void onSuccess(ResponseInfo<String> responseInfo)
+			{
+				
+				
+				// 返回成功，获得数据串
+				String result = responseInfo.result;
+				Log.i(TAG, "---------网络数据加载成功------" + result);
+				
+				// 解析数据,给mNewsData.add加上去
+				Gson gson=new Gson();
+				NewsListBean bean=gson.fromJson(result, NewsListBean.class);
+				List<NewsListPagerNewsBean> list=bean.data.news;
+				
+				mListData.addAll(list);
+				//设置只加载一次
+				moreUrl=bean.data.more;
+				
+				//给adapter刷新
+				listviewAdapter.notifyDataSetChanged();
+				
+				//刷新完成，告示listView去收起刷新
+				mListView.refreshFinish();
+			}
+			@Override
+			public void onFailure(HttpException error, String msg)
+			{
+
+				
+				//Log.i(TAG, "-------网络数据加载失败-------");
+				//刷新完成，告示listView去收起刷新
+				mListView.refreshFinish();
+				Toast.makeText(mContext, "加载数据失败，请检查网络是否开启！或者稍后再试！", 0).show();
+				//给adapter刷新
+				listviewAdapter.notifyDataSetChanged();
+			}
+		});
+		
 	}
 
 }
